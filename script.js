@@ -35,6 +35,14 @@ function requestApi(method, url){
         movie.innerHTML = inner;
         console.log(output);
 
+        output.results.forEach(function (itemDate){
+            let nameItemDate = itemDate.first_air_date || itemDate.release_date;
+            console.log(nameItemDate);
+            inner += `<div class="col-12 col-md-4 col-xl-3">${nameItemDate}</div>`;
+        });
+        movie.innerHTML = inner;
+        console.log(output);
+
     });
 
     // return url;
