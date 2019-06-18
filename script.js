@@ -27,21 +27,29 @@ function requestApi(method, url){
 
         let inner = '';
 
-        output.results.forEach(function (item){
-            let nameItem = item.name || item.title;
+        output.results.forEach(function (item, itemDate){
+            let nameItem = (item.name + item.first_air_date) || (item.title + item.release_date);
             console.log(nameItem);
             inner += `<div class="col-12 col-md-4 col-xl-3">${nameItem}</div>`;
         });
         movie.innerHTML = inner;
         console.log(output);
 
-        output.results.forEach(function (itemDate){
-            let nameItemDate = itemDate.first_air_date || itemDate.release_date;
-            console.log(nameItemDate);
-            inner += `<div class="col-12 col-md-4 col-xl-3">${nameItemDate}</div>`;
-        });
-        movie.innerHTML = inner;
-        console.log(output);
+        // output.results.forEach(function (item){
+        //     let nameItem = item.name || item.title;
+        //     console.log(nameItem);
+        //     inner += `<div class="col-12 col-md-4 col-xl-3">${nameItem}</div>`;
+        // });
+        // movie.innerHTML = inner;
+        // console.log(output);
+
+        // output.results.forEach(function (itemDate){
+        //     let nameItemDate = itemDate.first_air_date || itemDate.release_date;
+        //     console.log(nameItemDate);
+        //     inner += `<div class="col-12 col-md-4 col-xl-3">${nameItemDate}</div>`;
+        // });
+        // movie.innerHTML = inner;
+        // console.log(output);
 
     });
 
