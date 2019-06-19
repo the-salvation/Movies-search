@@ -23,7 +23,7 @@ function apiSearch(event) {
         let nameItem = item.name || item.title;
         let itemDate = item.first_air_date || item.release_date;
         inner += `<div class="col-12 col-md-4 col-xl-3 item">
-        <img src="${urlPoster + item.poster_path}" alt="${nameItem}">
+        (<img src="${urlPoster + item.poster_path}" alt="${nameItem}">) ? 'No picture'
         <h5>${nameItem}</h5><br>Release Date: <b>${itemDate}</b>
         </div>`;
       });
