@@ -82,8 +82,8 @@ function showFullInfo(){
       <h4 class="col-12 text-center text-info">${output.name || output.title}</h4>
       <div class="col-4">
         <img src='${urlPoster + output.poster_path}' alt='${output.name || output.title}'>
-        ${(output.homepage) ? `<p class='text-center' <a href="${output.homepage}" target="_blank" > Официальная страница </a></p>` : ''}
-        ${(output.imdb_id) ? `<p class='text-center' <a href="https://imdb.com/title/${output.imdb_id}" target="_blank" > Страница на IMDB.com </a></p>` : ''}
+        ${(output.homepage) ? `<p class='text-center'> <a href="${output.homepage}" target="_blank" > Официальная страница </a></p>` : ''}
+        ${(output.imdb_id) ? `<p class='text-center'> <a href="https://imdb.com/title/${output.imdb_id}" target="_blank" > Страница на IMDB.com </a></p>` : ''}
 
       </div>
       <div class="col-8">
