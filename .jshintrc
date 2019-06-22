@@ -1,4 +1,5 @@
 {
-    "camelcase" : true,
-    "esversion": 6
+	"indent" : 2,
+	"esversion" : 6,
+	"asi": true
 }

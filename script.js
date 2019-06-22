@@ -69,11 +69,13 @@ function showFullInfo(){
     movie.innerHTML = '<h2 class="col-12 text-center text-danger">Произошла ошибка. Повторите позже</h2>';
   }
 
+  const mediaType = this.dataset.type;
+
   fetch(url)
     .then(function(value) {
       if (value.status !== 200) {
         return Promise.reject(new Error (value.status));
-      } 
+      }
       return value.json();
     })
     .then(function(output) {
@@ -93,9 +95,13 @@ function showFullInfo(){
 
         ${(output.last_episode_to_air) ? `<p>${output.number_of_seasons} сезон ${output.last_episode_to_air.episode_number} серий вышло</p>` : ''}
         <p>Описание: ${output.overview}</p>
-
-      </div>
+        </div>
+        <br>
+        <div class='youtube'></div>
       `;
+
+        // getVideo(mediaType, output.id);
+
     })
     .catch(function(reason){
       movie.innerHTML = "Oopsee something just went wrong..!";
@@ -141,3 +147,41 @@ document.addEventListener('DOMContentLoaded', function(){
       console.error("error: " + reason.status);
     });
 });
+
+const getVideo = (type, id) => {
+  let youtube = movie.querySelector('.youtube');
+
+  fetch(`${apiHost}/3/${type}/${id}/videos?api_key=${apiKey}&language=ru`)
+    .then((value) => {
+      if (value.status !== 200) {
+        return Promise.reject(new Error (value.status));
+      } 
+      return value.json();
+    })
+    .then((output) => {
+      console.log(output);
+      let videoFrame = '<h5 class="col-12 text-center text-info mt-5 mb-5"> Фрагменты из видео </h5>';
+
+      if(output.results.length === 0){
+        videoFrame = '<h5 class="col-12 text-center text-danger mt-5 mb-5"> К сожалению видео отсутствует </h5>'
+      }
+
+      output.results.forEach((item)=>{
+        console.log(item.site);
+        if (item.site == "Youtube") {
+          videoFrame += `<iframe width="560" height="315" src="https://www.youtube.com/embed/${item.key}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` + ' ';
+        }
+      });
+      
+      youtube.innerHTML = videoFrame;
+
+    })
+    .catch((reason) => {
+      youtube.innerHTML = "По вашему запросу видео отсутствует";
+      console.error("error: " + reason.status);
+    });
+
+
+
+  // youtube.innerHTML = type;
+}
