@@ -1,6 +1,10 @@
 const searchForm = document.querySelector("#search-form");
 const movie = document.querySelector("#movies");
-const urlPoster = 'https://image.tmdb.org/t/p/w500/';
+// const urlPoster = 'https://image.tmdb.org/t/p/w500/';
+const apiKey = '3c6b5a6fe41eedd4960be722f6bc85b7';
+const apiHost = 'https://api.themoviedb.org';
+const imgHost = 'https://image.tmdb.org/t/p/w500';
+// const trends = `${apiHost}/3/trending/all/day?api_key=${apiKey}&language=ru`;
 
 function apiSearch(event) {
   event.preventDefault();
@@ -11,7 +15,7 @@ function apiSearch(event) {
     return;
   }
     movie.innerHTML = '<div class="spinner"></div>';
-  fetch("https://api.themoviedb.org/3/search/multi?api_key=3c6b5a6fe41eedd4960be722f6bc85b7&language=ru&query=" + searchText)
+  fetch(`${apiHost}/3/search/multi?api_key=${apiKey}&language=ru&query= + ${searchText}`)
     .then(function(value) {
       if (value.status !== 200) {
         return Promise.reject(new Error (value.status));
@@ -29,7 +33,7 @@ function apiSearch(event) {
         // console.log(item);
         let nameItem = item.name || item.title;
         let itemDate = item.first_air_date || item.release_date;
-        const poster = item.poster_path ? urlPoster + item.poster_path : './img/missed.jpg';
+        const poster = item.poster_path ? imgHost + item.poster_path : './img/missed.jpg';
         let dataInfo = '';
         
         if(item.media_type !== 'person') dataInfo = `data-id="${item.id}" data-type = "${item.media_type}"`;
@@ -62,11 +66,11 @@ function addEventMedia(){
 function showFullInfo(){
   let url = '';
   if(this.dataset.type === 'movie'){
-    url = 'https://api.themoviedb.org/3/movie/' + this.dataset.id + '?api_key=3c6b5a6fe41eedd4960be722f6bc85b7&language=ru';    
-  }else if(this.dataset.type === 'tv'){
-    url = 'https://api.themoviedb.org/3/tv/' + this.dataset.id + '?api_key=3c6b5a6fe41eedd4960be722f6bc85b7&language=ru';
-  }else {
-    movie.innerHTML = '<h2 class="col-12 text-center text-danger">Произошла ошибка. Повторите позже</h2>';
+    url = `${apiHost}/3/movie/' + ${this.dataset.id} + '?api_key=${apiKey}&language=ru`    
+  }else if (this.dataset.type === 'tv'){
+    url = `${apiHost}/3/tv/' + ${this.dataset.id} + '?api_key=${apiKey}&language=ru`
+  }else{
+    movie.innerHTML = '<h2 class="col-12 text-center text-danger">Произошла ошибка. Повторите позже</h2>'
   }
 
   const mediaType = this.dataset.type;
@@ -79,28 +83,35 @@ function showFullInfo(){
       return value.json();
     })
     .then(function(output) {
-      console.log(output);
+      // console.log(output);
+      let genres = '',
+        nameItem = output.name || output.title,
+        img = output.poster_path === null ? `<img src="./img/missed.jpg" class="img-fluid img-thumbnail mb-2" alt="no poster"> ` : ` <img src="${imgHost}${output.poster_path}" class="img-fluid img-thumbnail mb-2" alt="${nameItem}"}>`
+
+      output.genres.forEach((genre) => { genres += genre.name + ', ' })
+      genres = genres.substr(0, genres.length - 2)
+
       movie.innerHTML = `
-      <h4 class="col-12 text-center text-info">${output.name || output.title}</h4>
-      <div class="col-4">
-        <img src='${urlPoster + output.poster_path}' alt='${output.name || output.title}'>
-        ${(output.homepage) ? `<p class='text-center'> <a href="${output.homepage}" target="_blank" > Официальная страница </a></p>` : ''}
-        ${(output.imdb_id) ? `<p class='text-center'> <a href="https://imdb.com/title/${output.imdb_id}" target="_blank" > Страница на IMDB.com </a></p>` : ''}
-
+      <h2 class="col-12 text-center text-info mb-5" >${output.name || output.title}</h2 >
+      
+      <div class ="col-4 bg-light p-5"> 
+       ${img}
+       ${(output.homepage != 0) ? `<p class="text-center text-info mb-2"> <a href="${output.homepage}" target="_blank">Официальная страница</a></p>` : ''}
+       ${(output.imdb_id) ? `<p class="text-center text-info mb-2"> <a href="https://www.imdb.com/title/${output.imdb_id}" target="_blank">Страница на www.imdb.com</a></p>` : ''}
       </div>
-      <div class="col-8">
-        <p> Рейтинг: ${output.vote_average}</p>
-        <p> Статус: ${output.status}</p>
-        <p> Премьера: ${output.first_air_date || output.release_date}</p>
-
-        ${(output.last_episode_to_air) ? `<p>${output.number_of_seasons} сезон ${output.last_episode_to_air.episode_number} серий вышло</p>` : ''}
-        <p>Описание: ${output.overview}</p>
-        </div>
-        <br>
-        <div class='youtube'></div>
+      <div class ="col-8 bg-light p-5"> 
+      <p class="badge badge-danger p-3">Рейтинг: ${output.vote_average}</p>
+      <p class="badge badge-info p-3">Статус: ${output.status}</p>
+      <p class="badge badge-success p-3">Премьера: ${output.first_air_date || output.release_date}</p>
+      ${(output.last_episode_to_air) ? `<p class="badge badge-warning p-3">${output.number_of_seasons} сезон. Вышло ${output.last_episode_to_air.episode_number} серий </p>` : ''}
+      ${(genres.length != 0) ? `<p class="badge badge-info p-3">Жанр: ${genres}</p>` : '' }
+      ${(output.overview.length != 0) ? `<div class="mt-5">${output.overview} </div>` : `<h4 class="col-12 text-center text-danger mt-5"> Информация о фильме отсутствует </h4>`}
+      </div>
+      <br>
+      <div class='youtube'></div>
       `;
 
-        // getVideo(mediaType, output.id);
+      getVideo(mediaType, output.id);
 
     })
     .catch(function(reason){
@@ -128,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function(){
         let nameItem = item.name || item.title;
         let mediaType = item.title ? 'movie' : 'tv';
         let itemDate = item.first_air_date || item.release_date;
-        const poster = item.poster_path ? urlPoster + item.poster_path : './img/missed.jpg';
+        const poster = item.poster_path ? imgHost + item.poster_path : './img/missed.jpg';
         let dataInfo = `data-id="${item.id}" data-type = "${mediaType}"`;
        
         
