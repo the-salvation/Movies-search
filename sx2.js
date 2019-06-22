@@ -212,14 +212,14 @@ const getVideo = (type, id) => {
       return value.json();
     })
     .then( (output) => {
-      let videoFrame = '<h4 class="col-12 text-center text-info mt-5 mb-5" > Фрагменты из видео </h4 >'
+      let videoFrame = '<h4 class="col-12 text-center text-info mt-5 mb-5" > Моменты из видео </h4 >';
 
        if(output.results.length === 0) {
-         videoFrame = '<h4 class="col-12 text-center text-danger mt-5 mb-5"> К сожалению видео отсутствует </h4>'
+         videoFrame = '<h4 class="col-12 text-center text-danger mt-5 mb-5"> К сожалению видео отсутствует </h4>';
        }
 
       output.results.forEach(( item ) => {
-        console.log(item.site)
+        console.log(item.site);
         if (item.site == "YouTube") {
           videoFrame += `<iframe width="560" height="315" src="https://www.youtube.com/embed/${item.key}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` + ' ';
         }
