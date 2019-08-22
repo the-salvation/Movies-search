@@ -18,7 +18,7 @@ const apiSearch = (event) => {
     return
   }
   const server = `${apiHost}/3/search/multi?api_key=${apiKey}&language=ru&query=${searchText}`;
-  movies.innerHTML = `<button class="btn btn-primary" type="button" disabled>
+  movie.innerHTML = `<button class="btn btn-primary" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Загрузка...
                         </button>`;
