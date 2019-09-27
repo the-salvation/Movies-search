@@ -196,7 +196,7 @@ const addEventMedia = () => {
 }
 
 const cutText = (str, num, str2) => {
-  let words = str.split(' ');
+  let words = str.split('');
   if (words.length > num) { return words.slice(0, num).join(' ') + str2; }
   else return str;
 }
