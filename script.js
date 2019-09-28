@@ -10,7 +10,7 @@ function apiSearch(event) {
   event.preventDefault();
   const searchText = document.querySelector(".form-control").value;
     
-  if (searchText.trim().length === 0){
+  if (searchText.trim().length === 0) {
     movie.innerHTML = '<h2 class="col-12 text-center text-danger">Поле поиска пусто</h2>';
     return;
   }
@@ -18,14 +18,14 @@ function apiSearch(event) {
   fetch(`${apiHost}/3/search/multi?api_key=${apiKey}&language=ru&query= + ${searchText}`)
     .then(function(value) {
       if (value.status !== 200) {
-        return Promise.reject(new Error (value.status));
+        return Promise.reject(new Error(value.status));
       } 
       return value.json();
     })
     .then(function(output) {
       console.log(output);
       let inner = "";
-      if(output.results.length === 0){
+      if(output.results.length === 0) {
         inner = '<h2 class="col-12 text-center text-info">Нет такого фильма =(</h2>';
       } 
       output.results.forEach(function (item) {
@@ -48,14 +48,14 @@ function apiSearch(event) {
       // const dataInfo = '';
       addEventMedia();
     })
-    .catch(function(reason){
+    .catch(function(reason) {
       movie.innerHTML = "Oopsee something just went wrong..!";
       console.error("error: " + reason.status);
     });
   }
 searchForm.addEventListener("submit", apiSearch);
 
-function addEventMedia(){
+function addEventMedia() {
   const media = movie.querySelectorAll('img[data-id]');
       media.forEach(function(elem) {
         elem.style.cursor = 'pointer';
@@ -63,11 +63,11 @@ function addEventMedia(){
       });
 }
 
-function showFullInfo(){
+function showFullInfo() {
   let url = '';
-  if(this.dataset.type === 'movie'){
+  if(this.dataset.type === 'movie') {
     url = `${apiHost}/3/movie/' + ${this.dataset.id} + '?api_key=${apiKey}&language=ru`    
-  }else if (this.dataset.type === 'tv'){
+  }else if (this.dataset.type === 'tv') {
     url = `${apiHost}/3/tv/' + ${this.dataset.id} + '?api_key=${apiKey}&language=ru`
   }else{
     movie.innerHTML = '<h2 class="col-12 text-center text-danger">Произошла ошибка. Повторите позже</h2>'
@@ -78,7 +78,7 @@ function showFullInfo(){
   fetch(url)
     .then(function(value) {
       if (value.status !== 200) {
-        return Promise.reject(new Error (value.status));
+        return Promise.reject(new Error(value.status));
       }
       return value.json();
     })
@@ -114,24 +114,24 @@ function showFullInfo(){
       getVideo(mediaType, output.id);
 
     })
-    .catch(function(reason){
+    .catch(function(reason) {
       movie.innerHTML = "Oopsee something just went wrong..!";
       console.error("error: " + reason.status);
     });
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function() {
   fetch('https://api.themoviedb.org/3/trending/all/week?api_key=3c6b5a6fe41eedd4960be722f6bc85b7&language=ru')
     .then(function(value) {
       if (value.status !== 200) {
-        return Promise.reject(new Error (value.status));
+        return Promise.reject(new Error(value.status));
       } 
       return value.json();
     })
     .then(function(output) {
       console.log(output);
       let inner = '<h4 class="col-12 text-center text-info">Популярные за неделю!</h4>';
-      if(output.results.length === 0){
+      if(output.results.length === 0) {
         inner = '<h2 class="col-12 text-center text-info">По вашему запросу ничего не найдено</h2>';
       }; 
       output.results.forEach(function (item) {
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function(){
       // const dataInfo = '';
       addEventMedia();
     })
-    .catch(function(reason){
+    .catch(function(reason) {
       movie.innerHTML = "Oopsee something just went wrong..!";
       console.error("error: " + reason.status);
     });
@@ -165,7 +165,7 @@ const getVideo = (type, id) => {
   fetch(`${apiHost}/3/${type}/${id}/videos?api_key=${apiKey}&language=ru`)
     .then((value) => {
       if (value.status !== 200) {
-        return Promise.reject(new Error (value.status));
+        return Promise.reject(new Error(value.status));
       } 
       return value.json();
     })
@@ -173,7 +173,7 @@ const getVideo = (type, id) => {
       console.log(output);
       let videoFrame = '<h5 class="col-12 text-center text-info mt-5 mb-5"> Фрагменты из видео </h5>';
 
-      if(output.results.length === 0){
+      if(output.results.length === 0) {
         videoFrame = '<h5 class="col-12 text-center text-danger mt-5 mb-5"> К сожалению видео отсутствует </h5>'
       }
 

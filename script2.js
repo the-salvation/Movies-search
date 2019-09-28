@@ -1,3 +1,4 @@
+/* eslint-disable multiline-comment-style */
 // Documentation - https://developers.themoviedb.org/3/getting-started/introduction
 
 const searchForm = document.querySelector('#search-form');
@@ -5,7 +6,7 @@ const movie = document.querySelector('#movies');
 const apiHost = 'https://api.themoviedb.org';
 const imgHost = 'https://image.tmdb.org/t/p/w500';
 const apiKey = 'f2136ccacb0977dc008d5ea49c768321';
-const trends = `${apiHost}/3/trending/all/day?api_key=${apiKey}&language=ru`
+const trends = `${apiHost}/3/trending/all/day?api_key=${apiKey}&language=ru`;
 
 
 // --------------------------- Movie search ------------------
@@ -21,7 +22,7 @@ const apiSearch = (event) => {
   movie.innerHTML = `<button class="btn btn-primary" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Загрузка...
-                        </button>`;
+                    </button>`;
 
   fetch(server)
     .then(function (value) {
@@ -34,7 +35,7 @@ const apiSearch = (event) => {
 
       let inner = '';
       if (output.results.length === 0) {
-        inner = '<h2 class="col-12 text-center text-danger" > По вашему запросу ничего не найдено</h2 >'
+        inner = '<h2 class="col-12 text-center text-danger" > По вашему запросу ничего не найдено</h2 >';
       }
       output.results.forEach((item) => {
 
@@ -42,13 +43,15 @@ const apiSearch = (event) => {
         if (item.media_type !== 'person') dataInfo = `data-id="${item.id}" data-type="${item.media_type}"`
 
         let nameItem = item.name || item.title,
-          img = item.poster_path === null ? `<img src="./img/noposter.jpg" class="card-img-top img-fluid img-thumbnail"alt="no poster" ${dataInfo}>` : `<img src="${imgHost}${item.poster_path}"class="card-img-top img-fluid img-thumbnail" alt="${nameItem}"  ${dataInfo}>`,
-          overview = item.overview,
-          itemDate = (item.release_date !== "" && item.release_date !== undefined) ? (new
-            Date(Date.parse(item.release_date))).toLocaleString("ru", {
-              day: 'numeric', month: 'long', year: 'numeric',
-            }) : 'неизвестно'
-
+            img = item.poster_path === null ? `<img src="./img/missed.jpg" class="card-img-top img-fluid img-thumbnail"alt="no poster" ${dataInfo}>` : `<img src="${imgHost}${item.poster_path}"class="card-img-top img-fluid img-thumbnail" alt="${nameItem}"  ${dataInfo}>`,
+            // overview = item.overview,
+            overview = (item.overview !== "" && item.overview !== undefined) ? item.overview : 'Описание отсутствует. Вот зараза!',
+            shortOverview = overview.slice(0, 200) + '...',
+            itemDate = (item.release_date !== "" && item.release_date !== undefined) ? (new 
+              Date(Date.parse(item.release_date))).toLocaleString("ru", {
+                day: 'numeric', month: 'long', year: 'numeric',
+              }) : 'неизвестно';
+              // console.log(shortOverview);
         inner += `
           <div class="col-12 col-md-4 item">
             <div class="card shadow mb-5">
@@ -56,19 +59,24 @@ const apiSearch = (event) => {
               <div class="card-body">
                 <h5 class="card-title text-success text-center">${nameItem}</h5>
                 <h6 class="text-center text-info font-weight-light">Дата выхода: ${itemDate}</h6>
-                <p class="text-sm-left"><small>${cutText(overview, 40, '...')}</small></p>
+                <p class="text-sm-left"><small>${filterOverview(shortOverview)}</small></p> 
               </div> 
             </div>
           </div>
-          `
-      })
+          `;
+        // inner += 
+        // `<div class="col-12 col-md-6 col-xl-3 item">
+        // <img src="${img}" class="img_poster" alt="${nameItem}" ${dataInfo}>
+        // <h5>${nameItem}</h5><br>Release Date: <b>${itemDate}</b>
+        // </div>`;
+      });
       movie.innerHTML = inner;
 
-      addEventMedia()
+      addEventMedia();
 
     })
     .catch((reason) => {
-      movie.innerHTML = 'Упс, что-то пошло не так ';
+      movie.innerHTML = 'Упс, что-то пошло не так в поиске';
       console.error('error ' + reason.status);
     })
 }
@@ -94,8 +102,9 @@ document.addEventListener('DOMContentLoaded', function () {
         let mediaType = item.title ? 'movie' : 'tv';
         let dataInfo = `data-id="${item.id}" data-type="${mediaType}" `;
         let nameItem = item.name || item.title,
-          img = item.poster_path === null ? `<img src="./img/noposter.jpg" class="card-img-top img-fluid img-thumbnail"alt="no poster" ${dataInfo}>` : `<img src="${imgHost}${item.poster_path}"class="card-img-top img-fluid img-thumbnail" alt="${nameItem}"  ${dataInfo}>`,
+          img = item.poster_path === null ? `<img src="./img/missed.jpg" class="card-img-top img-fluid img-thumbnail"alt="no poster" ${dataInfo}>` : `<img src="${imgHost}${item.poster_path}"class="card-img-top img-fluid img-thumbnail" alt="${nameItem}"  ${dataInfo}>`,
           overview = item.overview,
+          shortOverview = overview.slice(0, 200) + '...',
           itemDate = (item.release_date !== "" && item.release_date !== undefined) ? (new
             Date(Date.parse(item.release_date))).toLocaleString("ru", {
               day: 'numeric', month: 'long', year: 'numeric',
@@ -108,19 +117,19 @@ document.addEventListener('DOMContentLoaded', function () {
               <div class="card-body">
                 <h5 class="card-title text-success text-center">${nameItem}</h5>
                 <h6 class="text-center text-info font-weight-light">Дата выхода: ${itemDate}</h6>
-                <p class="text-sm-left"><small>${cutText(overview, 40, '...')}</small></p>
+                <p class="text-sm-left"><small>${shortOverview}</small></p>
               </div> 
             </div>
           </div>
-          `
-      })
+          `;
+      });
       movie.innerHTML = inner;
 
-      addEventMedia()
+      addEventMedia();
 
     })
     .catch((reason) => {
-      movie.innerHTML = 'Упс, что-то пошло не так ';
+      movie.innerHTML = 'Упс, что-то пошло не так в трендах ';
       console.error('error ' + reason.status);
     })
 })
@@ -128,13 +137,13 @@ document.addEventListener('DOMContentLoaded', function () {
 // ------------ Show full info -----------------------
 
 function showFullInfo() {
-  let url = ''
+  let url = '';
   if (this.dataset.type === 'movie') {
-    url = `${apiHost}/3/movie/${this.dataset.id}?api_key=${apiKey}&language=ru-RU`
+    url = `${apiHost}/3/movie/${this.dataset.id}?api_key=${apiKey}&language=ru-RU`;
   } else if (this.dataset.type === 'tv') {
-    url = url = `${apiHost}/3/tv/${this.dataset.id}?api_key=${apiKey}&language=ru-RU`
+    url = url = `${apiHost}/3/tv/${this.dataset.id}?api_key=${apiKey}&language=ru-RU`;
   } else {
-    movie.innerHTML = '<h2 class="col-12 text-center text-danger">Произошла ошибка. Повторите запрос позже </h2>'
+    movie.innerHTML = '<h2 class="col-12 text-center text-danger">Произошла ошибка. Повторите запрос позже </h2>';
   }
 
   const mediaType = this.dataset.type;
@@ -149,14 +158,14 @@ function showFullInfo() {
     .then(function (output) {
 
       let genres = '',
-        nameItem = output.name || output.title,
-        img = output.poster_path === null ? `<img src="./img/noposter.jpg" class="img-fluid img-thumbnail mb-2" alt="no poster"> ` : ` <img src="${imgHost}${output.poster_path}" class="img-fluid img-thumbnail mb-2" alt="${nameItem}"}>`
+          nameItem = output.name || output.title,
+          img = output.poster_path === null ? `<img src="./img/missed.jpg" class="img-fluid img-thumbnail mb-2" alt="no poster"> ` : ` <img src="${imgHost}${output.poster_path}" class="img-fluid img-thumbnail mb-2" alt="${nameItem}"}>`;
 
-      output.genres.forEach((genre) => { genres += genre.name + ', ' })
-      genres = genres.substr(0, genres.length - 2)
+      output.genres.forEach((genre) => { genres += genre.name + ', ' });
+      genres = genres.substr(0, genres.length - 2);
 
       movie.innerHTML = `
-      <h2 class="col-12 text-center text-info mb-5" >${output.name || output.title}</h2 >
+      <h2 class="col-12 text-center text-info mb-5" >${output.name || output.title}</h2 >;
       
       <div class ="col-4 bg-light p-5"> 
        ${img}
@@ -174,35 +183,47 @@ function showFullInfo() {
       <br>
       <div class='youtube'></div>
       `;
-
-      getVideo(mediaType, output.id)
+      // getting youtube smamles for a movie
+      getVideo(mediaType, output.id);
 
     })
     .catch(function (reason) {
-      movie.innerHTML = 'Упс, что-то пошло не так ';
+      movie.innerHTML = 'Упс, что-то пошло не так. Не могу найти ';
       console.error('error ' + reason.status);
     })
 }
 
-// ------------ Функци и функциональные выражения ------------------------
+// functions
 
 const addEventMedia = () => {
   const media = movie.querySelectorAll('img[data-id]');
   media.forEach(function (elem) {
     // console.log(elem);
-    elem.style.cursor = 'pointer'
+    elem.style.cursor = 'pointer';
     elem.addEventListener('click', showFullInfo);
   })
 }
 
-const cutText = (str, num, str2) => {
-  let words = str.split('');
-  if (words.length > num) { return words.slice(0, num).join(' ') + str2; }
-  else return str;
+const filterOverview = (str) => {
+  let str1 = str;
+  if (str1 !== 'undefined') {
+    
+    return str1;
+  }
+  return '';
 }
 
+// const cutText = (str, num, str2) => {
+//   let words = str.split(' ');
+//   console.log(words);
+//   if (words.length > num && words !== '') { return words.join(' ') + str2; }
+//   // if (words.length > num) { return words.join(' ') + str2; }
+//   else return str;
+//     // return str + str2;
+// }
+
 const getVideo = (type, id) => {
-  let yotube = movie.querySelector('.youtube')
+  let youtube = movie.querySelector('.youtube');
 
   fetch(`${apiHost}/3/${type}/${id}/videos?api_key=${apiKey}&language=ru`)
     .then( (value) => {
@@ -225,11 +246,11 @@ const getVideo = (type, id) => {
         }
       })
 
-      yotube.innerHTML = videoFrame;
+      youtube.innerHTML = videoFrame;
     
     })
     .catch((reason) => {
-      yotube.innerHTML = 'Видео отсутствует!';
+      youtube.innerHTML = 'Видео отсутствует!';
       console.error('error ' + reason.status);
     })
 }
