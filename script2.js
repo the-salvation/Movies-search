@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return value.json();
     })
     .then(function (output) {
-      let inner = ' <h2 class="col-12 text-center text-info mb-5" > Популярные за неделю </h2 >';
+      let inner = ' <h2 class="col-12 text-center text-info mt-5 mb-5" > Популярные за неделю </h2 >';
       if (output.results.length === 0) {
         inner = '<h2 class="col-12 text-center text-danger" > По вашему запросу ничего не найдено</h2 >'
       }
