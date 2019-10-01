@@ -165,7 +165,7 @@ function showFullInfo() {
       genres = genres.substr(0, genres.length - 2);
 
       movie.innerHTML = `
-      <h2 class="col-12 text-center text-info mb-5" >${output.name || output.title}</h2 >;
+      <h2 class="col-12 text-center text-info mt-5  mb-3" >${output.name || output.title}</h2 >
       
       <div class ="col-4 bg-light p-5"> 
        ${img}
