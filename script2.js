@@ -177,7 +177,9 @@ function showFullInfo() {
       <p class="badge badge-info p-3">Статус: ${output.status}</p>
       <p class="badge badge-success p-3">Премьера: ${output.first_air_date || output.release_date}</p>
       ${(output.last_episode_to_air) ? `<p class="badge badge-warning p-3">${output.number_of_seasons} сезон. Вышло ${output.last_episode_to_air.episode_number} серий </p>` : ''}
+      
       ${(genres.length != 0) ? `<p class="badge badge-info p-3">Жанр: ${genres}</p>` : '' }
+      
       ${(output.overview.length != 0) ? `<div class="mt-5">${output.overview} </div>` : `<h4 class="col-12 text-center text-danger mt-5"> Информация о фильме отсутствует </h4>`}
       </div>
       <br>
