@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -9,100 +11,87 @@
     <title>My-Kino</title>
 
 </head>
+
 <body>
     <style>
-    img{
-        max-width: 100%;
-    }
-    .img_poster{
-        height: 350px;
-    }
-    .item{
-        margin: 1rem, 0;
-        text-align: center;
-        
-    }
-    .spinner{
-        margin: 0 auto;
-        width: 100px;
-        height: 100px;
-        border: 10px dashed;
-        border-radius: 50%;
-        border-left-color: transparent;
-        border-top-color: #aaa;
-        border-right-color: #555;
-        border-bottom-color: #000;
-        animation: spin 500ms infinite linear;
-    }
-    @keyframes spin{
-        100%{
-            transform: rotate(360deg)
+        img {
+            max-width: 100%;
         }
-    }
+
+        .img_poster {
+            height: 350px;
+        }
+
+        .item {
+            margin: 1rem, 0;
+            text-align: center;
+
+        }
+
+        .spinner {
+            margin: 0 auto;
+            width: 100px;
+            height: 100px;
+            border: 10px dashed;
+            border-radius: 50%;
+            border-left-color: transparent;
+            border-top-color: #aaa;
+            border-right-color: #555;
+            border-bottom-color: #000;
+            animation: spin 500ms infinite linear;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg)
+            }
+        }
     </style>
-<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg scrolling-navbar">
-    <div class="container d-flex justify-content-between">
-        <div class="container">
-            <a href="index.html" class="navbar-brand">My Kino</a>
-        </div>
-        <!-- <span style="float:right; width:80%"> -->
-        <span class="container-fluid">
-            <form class="form-inline" id='search-form'>
-                <input type="text" class="form-control mr-sm-2" id="searchText" placeholder="Введите название...">
-            </form>
-        </span>
-        
-        <button class="navbar-toggler" type="button"
-            data-toggle="collapse" data-target="#navbarContent"
-            aria-controls="navbarContent" aria-expanded="false"
-            area-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a href="./" class="nav-link">Главная</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Афиша</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Сериалы</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Фильмы</a>
-                </li>
-            </ul>
-        </div>
-        
-    </div>
-</nav>
+    <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg scrolling-navbar">
+        <div class="container d-flex justify-content-between">
+            <div class="container">
+                <a href="index.html" class="navbar-brand">My Kino</a>
+            </div>
+            <!-- <span style="float:right; width:80%"> -->
+            <span class="container-fluid">
+                <form class="form-inline" id='search-form'>
+                    <input type="text" class="form-control mr-sm-2" id="searchText" placeholder="Введите название...">
+                </form>
+            </span>
 
-<div class="container mt-5">
-    <!-- <div class="jumbotron">
-        <h3 class="text-center">Поиск фильмов</h3>
-        <form id='search-form'>
-            <input type="text" class="form-control mr-sm-2" id="searchText" placeholder="Введите название...">
-        </form>
-    </div> -->
-    <div class="container">
-        <h1></h1>
-        <div id="movies" class="row"></div>
-    </div>
-</div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" area-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a href="./" class="nav-link">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Афиша</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Сериалы</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Фильмы</a>
+                    </li>
+                </ul>
+            </div>
 
-<!-- <div class="container">
-    <div class="jumbotron">
-        <h3 class="text-center">Поиск фильмов</h3>
-        <form id='search-form'>
-            <input type="text" class="form-control mr-sm-2" id="searchText" placeholder="Введите название...">
-        </form>
-    </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
         <div class="container">
-        <div id="movies" class="row"></div>
+            <h1></h1>
+            <div id="movies" class="row"></div>
+        </div>
     </div>
-</div> -->
-<script src="./script2.js"></script>
+
+    <script src="./script.js"></script>
 
 </body>
+
 </html>
